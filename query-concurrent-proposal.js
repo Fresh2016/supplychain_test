@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 IBM All Rights Reserved.
+ * Copyright 2017 Jingdong All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-// This is Sample end-to-end standalone program that focuses on exercising all
-// parts of the fabric APIs in a happy-path scenario
+/*
+ * Used for testing fabric query concurrency
+ */
+
 'use strict';
 
 var log4js = require('log4js');
@@ -48,9 +50,7 @@ function fillArrayWithNumbers(start, end, interval) {
     return arr.map(function (x, i) { return start + i * interval});
 }
 
-// Set suffix of TraceInfo that used in concurrent proposal
-// e.g. fillArrayWithNumbers(1, 3, 1) returns array [1, 2, 3],
-// then TraceInfo 'Concurrent transaction. TraceInfo 1/2/3' are used in 3 proposals
+// Set query index, starting from #1
 var total_query_number = 10;
 var success_num = 0;
 var querynum_arr = fillArrayWithNumbers(1, total_query_number, 1);
@@ -81,8 +81,7 @@ hfc.newDefaultKeyValueStore({
 			fcn: config.queryRequest.functionName,
 			args: args
 		};
-		// Query chaincode
-		//return chain.queryByChaincode(request);
+
 		// Send concurrent proposal
 		async.map(querynum_arr, function(item, callback) {
 		    logger.debug('Concurrent query # ' + item.toString());
@@ -113,7 +112,8 @@ hfc.newDefaultKeyValueStore({
 				if (resp_num <= distribution_arr.length) distribution_arr[resp_num] ++;
 			}
 			console.log('Concurrency success rate: ' + success_num/total_query_number + ' with concurrent number: ' + total_query_number);
-			console.log('Response number distribution: [' + distribution_arr + ']');
+			console.log('Response number distribution:   [' + distribution_arr + ']');
+			console.log('corresponding response numbers: [0,1,2,3]');
 			console.dir('######################################################');
 			logger.debug('Existing process...');
 			process.exit();
