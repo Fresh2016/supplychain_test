@@ -87,8 +87,8 @@ hfc.newDefaultKeyValueStore({
 		};
 
 		// Send concurrent proposal. async.map is concurrent while async.mapSeries is series execution.
-		async.map(traceinfo_suffix_arr, function(item, callback) {
-		//async.mapSeries(traceinfo_suffix_arr, function(item, callback) {
+		//async.map(traceinfo_suffix_arr, function(item, callback) {
+		async.mapSeries(traceinfo_suffix_arr, function(item, callback) {
 			tx_id = helper.getTxId();
 		    request.txId = tx_id;
 		    request.args[3] = 'Concurrent transaction. TraceInfo #' + item.toString();
