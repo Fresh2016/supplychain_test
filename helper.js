@@ -103,7 +103,7 @@ module.exports.processProposal = function(tx_id, eventhub, chain, results, propo
 			eventhub.registerTxEvent(deployId, (tx) => {
 				logger.info('The chaincode'+(proposalType == 'deploy' ? proposalType: '')+' transaction has been successfully committed');
 				clearTimeout(handle);
-				eventhub.unregisterTxEvent(deployId);
+				//eventhub.unregisterTxEvent(deployId);
 				resolve();
 			});
 		});
