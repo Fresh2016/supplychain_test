@@ -60,7 +60,7 @@ function fillArrayWithNumbers(start, end, interval) {
 // Set suffix of TraceInfo that used in concurrent proposal
 // e.g. fillArrayWithNumbers(1, 3, 1) returns array [1, 2, 3],
 // then TraceInfo 'Concurrent transaction. TraceInfo 1/2/3' are used in 3 proposals 
-var total_invoke_number = 3;
+var total_invoke_number = 5;
 var success_num = 0;
 var traceinfo_suffix_arr = fillArrayWithNumbers(1, total_invoke_number, 1);
 
@@ -122,15 +122,13 @@ hfc.newDefaultKeyValueStore({
 		    );
 		}, function(err, results) {
 			logger.debug('Get callback.');
-			console.dir('############### Query Statistics #####################');
+			console.dir('############### Invoke Statistics #####################');
 			console.dir(results);
 			console.dir('######################################################');
-			console.log('Concurrency success rate: ' + results.length/total_invoke_number + ' with concurrent number: ' + total_query_number);
+			console.log('Concurrency success rate: ' + results.length/total_invoke_number + ' with concurrent number: ' + total_invoke_number);
 			console.dir('######################################################');
 			logger.debug('Existing process...');
 			process.exit();			
-			
-			
 		});		
 	}
 ).catch(
